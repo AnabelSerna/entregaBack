@@ -2,17 +2,16 @@ const bcrypt = require('bcrypt');
 const { faker } = require('@faker-js/faker');
 const User = require('../models/user.model');
 const Pet = require('../models/pet.model');
-
 const generateUsers = async (num) => {
     const users = [];
-    const hashedPassword = await bcrypt.hash('coder123', 10); 
+    const hashedPassword = await bcrypt.hash('coder123', 10);
 
     for (let i = 0; i < num; i++) {
         users.push({
             name: faker.person.fullName(),
             email: faker.internet.email(),
             password: hashedPassword,
-            role: Math.random() < 0.5 ? 'user' : 'admin', 
+            role: Math.random() < 0.5 ? 'user' : 'admin',
             pets: []
         });
     }
@@ -36,7 +35,6 @@ const generateData = async (userCount, petCount) => {
     try {
         const users = await generateUsers(userCount);
         const savedUsers = await User.insertMany(users);
-
         const pets = generatePets(petCount, savedUsers);
         await Pet.insertMany(pets);
 
@@ -46,4 +44,4 @@ const generateData = async (userCount, petCount) => {
     }
 };
 
-module.exports = { generateUsers, generateData };
+module.exports = { generateUsers, generatePets, generateData };

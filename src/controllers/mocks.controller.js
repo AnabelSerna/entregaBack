@@ -10,9 +10,14 @@ const getMockingPets = (req, res) => {
     res.json(pets);
 };
 
-const getMockingUsers = (req, res) => {
-    const users = generateUsers(50);
-    res.json(users);
+const getMockingUsers = async (req, res) => {
+    try {
+        const users = await generateUsers(50);
+        res.json(users);
+    } catch (error) {
+        console.error('Error generating mocking users:', error);
+        res.status(500).json({ error: 'Failed to generate mocking users' });
+    }
 };
 
 const postGenerateData = async (req, res) => {
@@ -23,7 +28,11 @@ const postGenerateData = async (req, res) => {
     }
 
     try {
-        const generatedUsers = generateUsers(users);
+        const generatedUsers = await generateUsers(users);
+
+        if (!generatedUsers.every(user => user.role && user.password)) {
+            throw new Error('User validation failed: Missing required fields');
+        }
 
         const savedUsers = await User.insertMany(generatedUsers);
 

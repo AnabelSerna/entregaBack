@@ -4,7 +4,7 @@ Este proyecto es una API que permite generar usuarios y mascotas de forma simula
 
 ## Instalación
 
-Sigue estos pasos para configurar y ejecutar el proyecto:
+Sigue estos pasos para configurar y ejecutar el proyecto de forma local:
 
 1. Clona el repositorio:
    ```bash
